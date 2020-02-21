@@ -73,6 +73,26 @@ public class CarApi {
         return new ResponseEntity("Car with this id number doesn't exist",HttpStatus.NOT_FOUND);
     }
 
+    @PutMapping("/{id}")
+    public void modPosition(@PathVariable long id, @RequestParam(required = false ,defaultValue = "") String mark, @RequestParam(required = false, defaultValue = "") String model,
+                            @RequestParam(required = false,defaultValue = "") String color) {
+        Optional<Car> first = carList.stream().filter(a -> a.getId() == id).findFirst();
+        if (first.isPresent()) {
+
+            if (!mark.equals("")) {
+                first.get().setMark(mark);
+            }
+            if (!model.equals("")) {
+                first.get().setModel(model);
+            }
+            if (!color.equals("")) {
+                first.get().setColor(color);
+            }
+        }
+    }
+
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Car> deleteCar(@PathVariable long id){
         Optional<Car> first = carList.stream().filter(a -> a.getId() == id).findFirst();
